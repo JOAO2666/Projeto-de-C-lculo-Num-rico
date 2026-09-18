@@ -90,6 +90,36 @@ def sequencia_somas(termo: float, repeticoes: int = 10, n_digitos: int = 4, meto
 # 3. PARTE: Interface de Usuario e Menu (Julio Cesar)
 # =====================================================================
 
+def ler_numero(mensagem):
+    while True:
+        entrada = input(mensagem).strip().replace(",", ".")
+        try:
+            return float(entrada)
+        except ValueError:
+            print("Valor invalido. Digite um numero real (ex: 2.5).")
+
+def ler_digitos(mensagem, padrao = 4):
+    while True:
+        entrada = input(f"{mensagem} [{padrao}]: ").strip()
+        if entrada == "":
+            return padrao
+        if entrada.isdigit() and int(entrada) > 0:
+            return int(entrada)
+        print("Digite um numero inteiro maior que zero.")
+
+def escolher_metodo():
+    while True:
+        print("\nMetodo de ajuste:")
+        print("1 - Arredondamento")
+        print("2 - Truncamento")
+        opcao = input("Escolha (1 ou 2) [1]: ").strip()
+        if opcao in ["1", ""]:
+            return "arredondamento"
+        elif opcao == "2":
+            return "truncamento"
+        print("Opcao invalida. Digite 1 ou 2.")
+
+
 def exibir_menu():
     print("\n" + "=" * 50)
     print("   SIMULADOR DE PROPAGACAO DE ERROS NUMERICOS")
