@@ -98,6 +98,17 @@ def ler_numero(mensagem):
         except ValueError:
             print("Valor invalido. Digite um numero real (ex: 2.5).")
 
+def ler_operacao():
+    operacoes_validas = ["+", "-", "*", "/"]
+
+    while True:
+        operacao = input("Digite a operação (+, -, * ou /): ").strip()
+
+        if operacao in operacoes_validas:
+            return operacao
+
+        print("Operação inválida. Tente novamente")
+
 def ler_digitos(mensagem, padrao = 4):
     while True:
         entrada = input(f"{mensagem} [{padrao}]: ").strip()
@@ -139,8 +150,8 @@ def main():
         opcao = input("\nEscolha uma opcao: ").strip()
 
         if opcao == "1":
-            # TODO: ler valores do usuario e exibir resultado
-            print("\n[Novo Calculo] Em desenvolvimento...")
+            operacao = ler_operacao()
+            print(f"Você escolheu: {operacao}")
         elif opcao == "2":
             # TODO: rodar exemplo 1
             print("\n[Exemplo 1] Em desenvolvimento...")
