@@ -130,7 +130,19 @@ def escolher_metodo():
             return "truncamento"
         print("Opcao invalida. Digite 1 ou 2.")
 
+def exibir_resultado(resultado):
+    print("\n--- Resultado ---")
+    print(f"Valor exato: {resultado['valor_exato']}")
+    print(f"Valor aproximado: {resultado['valor_aproximado']}")
+    print(f"Erro absoluto: {resultado['erro_absoluto']}")
 
+    erro_relativo = resultado["erro_relativo"]
+    if erro_relativo is None:
+        print("Erro relativo: não definido")
+    else:
+        print(f"Erro relativo: {erro_relativo}")
+
+    
 def exibir_menu():
     print("\n" + "=" * 50)
     print("   SIMULADOR DE PROPAGACAO DE ERROS NUMERICOS")
@@ -150,8 +162,19 @@ def main():
         opcao = input("\nEscolha uma opcao: ").strip()
 
         if opcao == "1":
+            x = ler_numero("Digite o primeiro número (x): ")
+            y = ler_numero("Digite o segundo número (y): ")
             operacao = ler_operacao()
-            print(f"Você escolheu: {operacao}")
+            n_digitos = ler_digitos("Número de dígitos significativos")
+            metodo = escolher_metodo()
+            print(f"Precisão: {n_digitos} dígitos; método: {metodo}")
+            resultado_teste = {
+                "valor_exato": 7.123,
+                "valor_aproximado": 7.12,
+                "erro_absoluto": 0.003,
+                "erro_relativo": 0.00042
+            }
+            exibir_resultado(resultado_teste)
         elif opcao == "2":
             # TODO: rodar exemplo 1
             print("\n[Exemplo 1] Em desenvolvimento...")
