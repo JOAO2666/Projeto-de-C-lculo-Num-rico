@@ -172,7 +172,7 @@ def main():
                 "valor_exato": 7.123,
                 "valor_aproximado": 7.12,
                 "erro_absoluto": 0.003,
-                "erro_relativo": 0.00042
+                "erro_relativo": None
             }
             exibir_resultado(resultado_teste)
         elif opcao == "2":
