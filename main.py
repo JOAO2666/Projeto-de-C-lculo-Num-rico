@@ -90,6 +90,59 @@ def sequencia_somas(termo: float, repeticoes: int = 10, n_digitos: int = 4, meto
 # 3. PARTE: Interface de Usuario e Menu (Julio Cesar)
 # =====================================================================
 
+def ler_numero(mensagem):
+    while True:
+        entrada = input(mensagem).strip().replace(",", ".")
+        try:
+            return float(entrada)
+        except ValueError:
+            print("Valor invalido. Digite um numero real (ex: 2.5).")
+
+def ler_operacao():
+    operacoes_validas = ["+", "-", "*", "/"]
+
+    while True:
+        operacao = input("Digite a operação (+, -, * ou /): ").strip()
+
+        if operacao in operacoes_validas:
+            return operacao
+
+        print("Operação inválida. Tente novamente")
+
+def ler_digitos(mensagem, padrao = 4):
+    while True:
+        entrada = input(f"{mensagem} [{padrao}]: ").strip()
+        if entrada == "":
+            return padrao
+        if entrada.isdigit() and int(entrada) > 0:
+            return int(entrada)
+        print("Digite um numero inteiro maior que zero.")
+
+def escolher_metodo():
+    while True:
+        print("\nMetodo de ajuste:")
+        print("1 - Arredondamento")
+        print("2 - Truncamento")
+        opcao = input("Escolha (1 ou 2) [1]: ").strip()
+        if opcao in ["1", ""]:
+            return "arredondamento"
+        elif opcao == "2":
+            return "truncamento"
+        print("Opcao invalida. Digite 1 ou 2.")
+
+def exibir_resultado(resultado):
+    print("\n--- Resultado ---")
+    print(f"Valor exato: {resultado['valor_exato']}")
+    print(f"Valor aproximado: {resultado['valor_aproximado']}")
+    print(f"Erro absoluto: {resultado['erro_absoluto']}")
+
+    erro_relativo = resultado["erro_relativo"]
+    if erro_relativo is None:
+        print("Erro relativo: não definido")
+    else:
+        print(f"Erro relativo: {erro_relativo}")
+
+    
 def exibir_menu():
     print("\n" + "=" * 50)
     print("   SIMULADOR DE PROPAGACAO DE ERROS NUMERICOS")
@@ -109,8 +162,19 @@ def main():
         opcao = input("\nEscolha uma opcao: ").strip()
 
         if opcao == "1":
-            # TODO: ler valores do usuario e exibir resultado
-            print("\n[Novo Calculo] Em desenvolvimento...")
+            x = ler_numero("Digite o primeiro número (x): ")
+            y = ler_numero("Digite o segundo número (y): ")
+            operacao = ler_operacao()
+            n_digitos = ler_digitos("Número de dígitos significativos")
+            metodo = escolher_metodo()
+            print(f"Precisão: {n_digitos} dígitos; método: {metodo}")
+            resultado_teste = {
+                "valor_exato": 7.123,
+                "valor_aproximado": 7.12,
+                "erro_absoluto": 0.003,
+                "erro_relativo": None
+            }
+            exibir_resultado(resultado_teste)
         elif opcao == "2":
             # TODO: rodar exemplo 1
             print("\n[Exemplo 1] Em desenvolvimento...")
