@@ -8,7 +8,10 @@ Equipe:
 - Julio Cesar Mendes do Nascimento
 """
 
+from asyncio.windows_events import NULL
 import math
+from operator import mod
+from unittest import result
 
 
 # =====================================================================
@@ -66,24 +69,41 @@ def calcular_erros(valor_exato: float, valor_aprox: float) -> tuple[float, float
     - Erro Absoluto: Ea = |Valor Exato - Valor Aprox|
     - Erro Relativo: Er = Ea / |Valor Aprox| (se Valor Aprox != 0)
     """
-    # TODO: implementar calculo de Ea e Er
-    pass
+    Ea = abs(valor_exato - valor_aprox)
+
+    if valor_aprox == 0:
+        return None
+
+    Er = Ea / abs(valor_aprox)
+
+    return Ea, Er
 
 
 def calcular_operacao(x: float, y: float, op: str, n_digitos: int, metodo: str = "arredondamento") -> dict:
     """
     Executa a operacao com precisao controlada e calcula os erros.
     """
-    # TODO: implementar operacao na maquina finita
-    pass
+    if op == "+":
+        result = x + y
+    elif op == "-":
+        result = x - y
+    elif op == "*":
+        result = x * y
+    elif op == "/":
+        result = x / y
+    else:
+        return None
 
 
 def sequencia_somas(termo: float, repeticoes: int = 10, n_digitos: int = 4, metodo: str = "truncamento") -> list:
     """
     Simula somas consecutivas acumulando o erro a cada passo (Exemplo 3).
     """
-    # TODO: implementar loop de somas sucessivas
-    pass
+    if _ in range(repeticoes):
+        resul += termo
+
+
+
 
 
 # =====================================================================
@@ -142,7 +162,7 @@ def exibir_resultado(resultado):
     else:
         print(f"Erro relativo: {erro_relativo}")
 
-    
+
 def exibir_menu():
     print("\n" + "=" * 50)
     print("   SIMULADOR DE PROPAGACAO DE ERROS NUMERICOS")
