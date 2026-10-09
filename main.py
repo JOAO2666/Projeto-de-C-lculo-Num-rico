@@ -72,7 +72,7 @@ def calcular_erros(valor_exato: float, valor_aprox: float) -> tuple[float, float
     Ea = abs(valor_exato - valor_aprox)
 
     if valor_aprox == 0:
-        return None
+        raise ValueError(f"Valor Invalido")
 
     Er = Ea / abs(valor_aprox)
 
@@ -84,27 +84,33 @@ def calcular_operacao(x: float, y: float, op: str, n_digitos: int, metodo: str =
     Executa a operacao com precisao controlada e calcula os erros.
     """
     if op == "+":
-        result = x + y
+        valor_exato = x + y
     elif op == "-":
-        result = x - y
+        valor_exato = x - y
     elif op == "*":
-        result = x * y
+        valor_exato = x * y
     elif op == "/":
-        result = x / y
+        valor_exato = x / y
     else:
-        return None
+        raise ValueError(f"Operação Invalida")
+
+    val_aprox = ajustar_precisao(valor_exato, n_digitos, metodo)
+    Ea, Er = calcular_erros(valor_exato, val_aprox)
 
 
 def sequencia_somas(termo: float, repeticoes: int = 10, n_digitos: int = 4, metodo: str = "truncamento") -> list:
     """
     Simula somas consecutivas acumulando o erro a cada passo (Exemplo 3).
     """
-    if _ in range(repeticoes):
-        resul += termo
+    acumulador = termo
+    i = 0
 
+    if i in range(1, repeticoes):
+        resul = acumulador + termo
+        acumulador = ajustar_precisao(resul, n_digitos, metodo)
 
-
-
+    val_exato_passo = termo * (i + 1)
+    Ea, Er = calcular_erros(val_exato_passo, acumulador)
 
 # =====================================================================
 # 3. PARTE: Interface de Usuario e Menu (Julio Cesar)
