@@ -63,20 +63,20 @@ def ajustar_precisao(valor: float, n_digitos: int, metodo: str = "arredondamento
 # 2. PARTE: Operacoes Aritmeticas e Metricas de Erro (Eduardo)
 # =====================================================================
 
-def calcular_erros(valor_exato: float, valor_aprox: float) -> tuple[float, float | None]:
+def calcular_erros(valor_exato: float, valor_aproximado: float) -> tuple[float, float | None]:
     """
     Calcula:
     - Erro Absoluto: Ea = |Valor Exato - Valor Aprox|
     - Erro Relativo: Er = Ea / |Valor Aprox| (se Valor Aprox != 0)
     """
-    Ea = abs(valor_exato - valor_aprox)
+    erro_absoluto = abs(valor_exato - valor_aproximado)
 
-    if valor_aprox == 0:
+    if valor_aproximado == 0:
         raise ValueError(f"Valor Invalido")
 
-    Er = Ea / abs(valor_aprox)
+    erro_relativo = erro_absoluto / abs(valor_aproximado)
 
-    return Ea, Er
+    return erro_absoluto, erro_relativo
 
 
 def calcular_operacao(x: float, y: float, op: str, n_digitos: int, metodo: str = "arredondamento") -> dict:
@@ -94,23 +94,25 @@ def calcular_operacao(x: float, y: float, op: str, n_digitos: int, metodo: str =
     else:
         raise ValueError(f"Operação Invalida")
 
-    val_aprox = ajustar_precisao(valor_exato, n_digitos, metodo)
-    Ea, Er = calcular_erros(valor_exato, val_aprox)
+    val_aproximado = ajustar_precisao(valor_exato, n_digitos, metodo)
+    erro_absoluto, erro_relativo = calcular_erros(valor_exato, val_aproximado)
 
 
 def sequencia_somas(termo: float, repeticoes: int = 10, n_digitos: int = 4, metodo: str = "truncamento") -> list:
     """
     Simula somas consecutivas acumulando o erro a cada passo (Exemplo 3).
     """
-    acumulador = termo
-    i = 0
+    acumulador = 0.0
+    resultados = []
 
-    if i in range(1, repeticoes):
-        resul = acumulador + termo
-        acumulador = ajustar_precisao(resul, n_digitos, metodo)
+    for i in range(repeticoes):
+        acumulador = acumulador + termo
+        acumulador_aproximado = ajustar_precisao(acumulador, n_digitos, metodo)
+        val_exato_passo = termo * (i + 1)
+        erro_absoluto, erro_relativo = calcular_erros(val_exato_passo, acumulador_aproximado)
 
     val_exato_passo = termo * (i + 1)
-    Ea, Er = calcular_erros(val_exato_passo, acumulador)
+    erro_absoluto, erro_relativo = calcular_erros(val_exato_passo, acumulador)
 
 # =====================================================================
 # 3. PARTE: Interface de Usuario e Menu (Julio Cesar)
