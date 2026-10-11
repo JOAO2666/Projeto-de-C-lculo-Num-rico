@@ -19,14 +19,18 @@ class MaquinaHipotetica:
         return mantissa, expoente
 
     def truncar(self, mantissa: float) -> float:
-        # Corta os dígitos além de self.digitos
+        # Corta os dígitos além de self.digitos usando tolerância 1e-12 contra imprecisão do float binário
         fator = 10 ** self.digitos
-        return math.trunc(mantissa * fator) / fator
+        sinal = 1 if mantissa >= 0 else -1
+        m_abs = abs(mantissa)
+        return sinal * math.floor(m_abs * fator + 1e-12) / fator
 
     def arredondar(self, mantissa: float) -> float:
-        # Arredonda para self.digitos observando o próximo dígito
+        # Arredondamento aritmético padrão (half-up: se o próximo dígito >= 5, soma 1)
         fator = 10 ** self.digitos
-        return round(mantissa * fator) / fator
+        sinal = 1 if mantissa >= 0 else -1
+        m_abs = abs(mantissa)
+        return sinal * math.floor(m_abs * fator + 0.5 + 1e-12) / fator
 
     def ajustar(self, valor: float) -> float:
         # Aplica a normalização e o ajuste configurado na máquina
@@ -39,6 +43,10 @@ class MaquinaHipotetica:
             mantissa_ajustada = self.truncar(mantissa)
         elif self.metodo == "arredondamento":
             mantissa_ajustada = self.arredondar(mantissa)
+            # Renormaliza se o arredondamento empurrar a mantissa para 1.0 (ex: 0.9999 -> 1.000)
+            if abs(mantissa_ajustada) >= 1.0:
+                mantissa_ajustada /= 10.0
+                expoente += 1
         else:
             raise ValueError(f"Método '{self.metodo}' não reconhecido.")
 
